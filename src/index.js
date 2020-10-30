@@ -34,16 +34,16 @@ import reactlogo from './images/react.png'
 
 // JSX element, header
 const headerStyles = {backgroundColor: 'aliceblue', padding: '20'}
-const Header = (props) => (
+const Header = ({data: {welcome, title, subtitle, author: {firstName, lastName}, date }}) => (
   <header>
     <div style={headerStyles}>
-      <h1>{props.data.welcome}</h1>
-      <h2>{props.data.title}</h2>
-      <h3>{props.data.subtitle}</h3>
+      <h1>{welcome}</h1>
+      <h2>{title}</h2>
+      <h3>{subtitle}</h3>
       <p>
-        Instructor: {props.data.author.firstName} {props.data.author.lastName}
+        Instructor: {firstName} {lastName}
       </p>
-      <small>Date: {showDate(props.data.date)}</small>
+      <small>Date: {showDate(date)}</small>
     </div>
   </header>
 )
@@ -60,16 +60,16 @@ const Result = () => (
 const yearBorn = 1820
 const currentYear = new Date().getFullYear()
 const age = currentYear - yearBorn
-const PersonAge = (props) => (
+const PersonAge = ({user: {firstName, lastName}}) => (
   <p>
     {' '}
-    {props.data.author.firstName} {props.data.author.lastName} is {props.age} years old
+    {firstName} {lastName} is {age} years old
   </p>
 )
 
 // JSX element, main
-const techs = ['HTML', 'CSS', 'JavaScript']
-const techsFormatted = techs.map((tech) => <li key={tech}>{tech}</li>)
+// const techs = ['HTML', 'CSS', 'JavaScript']
+const TechsFormatted =  ({techs}) => (techs.map((tech) => <li key={tech}>{tech}</li>))
 
 const imagestyle={margin: '20px auto'};
 const Techimages = () => (
@@ -101,19 +101,19 @@ const Subscribebox = () => (
 
 const userpicStyle = { height: '200px', width: '200px', borderRadius: '50%' }
 const buttonStyle = { padding: '10px', marginRight: '10px', color: 'white', backgroundColor: '#2ACFCF', border: 'none', borderRadius: '5px'}
-const skills = ['HTML', 'CSS', ' JS', ' REACT', 'ANGULAR', 'NODE', 'LARAVEL', 'MONGO']
-const Usercard = (props) => (
+
+const Usercard = ({ user: {firstName, lastName, title, location, image}, techs}) => (
   <div style={{ border: '5px solid #F0F1F7', backgroundColor: "aliceblue", padding: "10px"}}>
     <img style={userpicStyle} src={kid} alt="coolimage"/>
     <div>
-      <p>{props.data.author.firstName.toUpperCase()} {props.data.author.lastName.toUpperCase()} &#9989;</p>
+      <p>{firstName.toUpperCase()} {lastName.toUpperCase()} &#9989;</p>
       <br/>
-      <p>{props.data.author.title} {props.data.author.location}</p>
+      <p>{title} {location}</p>
 
       <p>SKILLS</p>
 
-      {skills.map((skill) => ( <button style
-      ={buttonStyle} key={skill}>{skill}</button> ))}
+      {techs.map((tech) => ( <button style
+      ={buttonStyle} key={tech}>{tech}</button> ))}
     </div>
 
       <p>Joined on {new Date().getDate() + '-' + new Date().getMonth() + '-' + new Date().getFullYear()} </p>
@@ -141,7 +141,7 @@ const HexaColor = () => {
   }
 
 // JSX element, main
-const Main = (props) => (
+const Main = ({techs, user}) => (
   <main>
     <div className='main-wrapper'>
       <p>
@@ -151,12 +151,12 @@ const Main = (props) => (
         </strong>
         :
       </p>
-      <ul>{techsFormatted}</ul>
+      <ul><TechsFormatted techs={techs} /></ul>
       <Result />
-      <PersonAge data={props.data} />
+      <PersonAge user={user} />
       <Techimages />
       <Subscribebox />
-      <Usercard data={props.data}/>
+      <Usercard user={user} techs={techs}/>
       <HexaColor></HexaColor>
       <HexaColor></HexaColor>
       <HexaColor></HexaColor>
@@ -171,10 +171,10 @@ const Main = (props) => (
 const copyRight = 'Copyright 2020'
 
 // JSX element, footer
-const Footer = () => (
+const Footer = ({date}) => (
   <footer>
     <div className='footer-wrapper'>
-      <p>{copyRight}</p>
+      <p>Copyright: {date.getFullYear()}</p>
     </div>
   </footer>
 )
@@ -198,20 +198,24 @@ const handleTime = () => {
     title : 'Getting Started React',
     subtitle: 'JavaScript Library',
     author : {
-    firstName: 'Sam',
-    lastName: 'Jeff',
-    title: 'Senior Dev',
-    location: 'Kenya'
-  },
+      firstName: 'Sam',
+      lastName: 'Jeff',
+      title: 'Senior Dev',
+      location: 'Kenya'
+    },
    date : new Date()
   }
+
+  const techs = ['HTML', 'CSS', ' JS', ' REACT', 'ANGULAR', 'NODE', 'LARAVEL', 'MONGO']
+  const user = {...data.author, image: kid}
+  const date = new Date()
   
 
   return ( <div className='app'>
     <Header data={data} />
-    <Main data={data}/>
+    <Main techs={techs} user={user}/>
     <Button text="show time" IWasClicked={handleTime}/>
-    <Footer />
+    <Footer date={date} />
     
   </div>)}
 
