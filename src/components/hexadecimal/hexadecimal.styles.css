@@ -1,0 +1,8 @@
+.colourbox{
+    width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+    grid-gap: 10px 10px;
+    font-family: 'Syne Mono', monospace;
+}

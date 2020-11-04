@@ -1,0 +1,8 @@
+.header {
+    font-family: 'Syne Mono', monospace;
+}
+
+.header h1{
+    color: blueviolet;
+    text-decoration: underline;
+}

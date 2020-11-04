@@ -1,0 +1,16 @@
+.number{
+    border: 2px solid #cccc;
+    border-radius: 3px;
+}
+
+.even{
+    background-color: green;
+}
+
+.odd{
+    background-color: yellow;
+}
+
+.prime{
+    background-color: red;
+}
