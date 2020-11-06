@@ -27,13 +27,14 @@ import htmllogo from './images/html-5.png';
 import csslogo from './images/css.svg';
 import jslogo from './images/js-logo.png';
 import reactlogo from './images/react.png'
+import countries from './data/countries'
 
 // JSX element, header
 
 
 
 // JSX element, header
-const headerStyles = {backgroundColor: 'aliceblue', padding: '20'}
+const headerStyles = {padding: '20'}
 const Header = ({data: {welcome, title, subtitle, author: {firstName, lastName}, date }}) => (
   <header>
     <div style={headerStyles}>
@@ -73,7 +74,7 @@ const TechsFormatted =  ({techs}) => (techs.map((tech) => <li key={tech}>{tech}<
 
 const imagestyle={margin: '20px auto'};
 const Techimages = () => (
-  <div style={{ borderTop: 'aliceblue 2px solid', backgroundColor: 'lightgrey', display: 'flex', justifyContent: 'space-around', margin: '40px  auto', width: '80%'}}>
+  <div style={{ borderTop: 'aliceblue 2px solid', display: 'flex', justifyContent: 'space-around', margin: '40px  auto', width: '80%'}}>
     <img style={imagestyle} src={htmllogo} alt="techimage" height="100px" width="100px"/>
     <img style={imagestyle} src={csslogo} alt="techimage" height="100px" width="100px"/>
     <img style={imagestyle} src={jslogo} alt="techimage" height="100px" width="100px"/>
@@ -83,7 +84,7 @@ const Techimages = () => (
 
 const inputStyles = { border: 'none', padding: '10px', borderRadius: '5px'}
 const Subscribebox = () => (
-  <div style={{borderRadius: '10px', backgroundColor: 'aliceblue', margin: '20px auto', padding: '20px',  textAlign: 'center' }}>
+  <div style={{borderRadius: '10px', margin: '20px auto', padding: '20px',  textAlign: 'center' }}>
     <h1>Subscribe</h1>
     <p>Sign up with your emal address to receive news and updates</p>
     <div style={{ display: 'flex', justifyContent: 'space-around', width: '50%', margin: '20px auto' }}>
@@ -103,7 +104,7 @@ const userpicStyle = { height: '200px', width: '200px', borderRadius: '50%' }
 const buttonStyle = { padding: '10px', marginRight: '10px', color: 'white', backgroundColor: '#2ACFCF', border: 'none', borderRadius: '5px'}
 
 const Usercard = ({ user: {firstName, lastName, title, location, image}, techs}) => (
-  <div style={{ border: '5px solid #F0F1F7', backgroundColor: "aliceblue", padding: "10px"}}>
+  <div style={{ border: '5px solid #F0F1F7', padding: "10px"}}>
     <img style={userpicStyle} src={kid} alt="coolimage"/>
     <div>
       <p>{firstName.toUpperCase()} {lastName.toUpperCase()} &#9989;</p>
@@ -140,6 +141,51 @@ const HexaColor = () => {
     
   }
 
+
+class CountrySelector extends Component {
+    state ={
+      capital: countries[Math.floor(Math.random() * countries.length + 1) ].capital,
+      name: countries[Math.floor(Math.random() * countries.length + 1) ].name,
+      language: countries[Math.floor(Math.random() * countries.length + 1) ].languages,
+      population: countries[Math.floor(Math.random() * countries.length + 1) ].population,
+      currency: countries[Math.floor(Math.random() * countries.length + 1) ].currency,
+      flag: countries[Math.floor(Math.random() * countries.length + 1) ].flag
+    }
+
+    randomCountry = () => {
+      let rndCountry = countries[Math.floor(Math.random() * countries.length + 1) ]
+
+      console.log(rndCountry)
+      this.setState({ 
+        capital: rndCountry.capital,
+        name: rndCountry.name,
+        language: rndCountry.languages,
+        population: rndCountry.population,
+        currency: rndCountry.currency,
+        flag: rndCountry.flag,
+      });
+    }
+    
+  render() {
+    // console.log(countries)
+    return(
+      <div>
+
+        <img src={this.state.flag} alt="" height="400px" width="450px"/>
+        <h3>{this.state.name}</h3>
+        <ul>
+          <li><b>Capital</b> : {this.state.capital}</li>
+          <li><b>Language</b> : {this.state.language}</li>
+          <li><b>Population</b> : {this.state.population}</li>
+          <li><b>Currency</b> : {this.state.currency}</li> 
+        </ul>
+        <Button text="Random Country" IWasClicked={this.randomCountry} />        
+      </div>
+    )
+  }
+    
+  }
+
 // JSX element, main
 const Main = ({techs, user}) => (
   <main>
@@ -160,9 +206,7 @@ const Main = ({techs, user}) => (
       <HexaColor></HexaColor>
       <HexaColor></HexaColor>
       <HexaColor></HexaColor>
-      <HexaColor></HexaColor>
-      <HexaColor></HexaColor>
-      <HexaColor></HexaColor>
+      <CountrySelector></CountrySelector>
       
     </div>
   </main>
@@ -187,12 +231,30 @@ const showDate =(time) => {
   return `${month},  ${date}, ${year}, `
 }
 
-const Button = props => (<button onClick={props.IWasClicked}>{props.text}</button>)
+const Button = props => (<button style={buttonStyle} onClick={props.IWasClicked}>{props.text}</button>)
 // JSX element, app
 class App extends Component  {
+
+  state ={
+    day: true,
+    lightstyles: {
+      backgroundColor: '',
+      color: ''
+    },
+    darkmodestyles: {
+      backgroundColor: '#152632',
+      color: 'white'
+    }
+  }
+
  handleTime = () => {
   alert(showDate(new Date()));
-}
+  }
+
+  changeBackgroundColor = () => {
+    this.setState({ day: !this.state.day})
+  }
+
   render() {
     const data = {
       welcome :'Welcome to 30 Days Of React',
@@ -210,16 +272,17 @@ class App extends Component  {
     const techs = ['HTML', 'CSS', ' JS', ' REACT', 'ANGULAR', 'NODE', 'LARAVEL', 'MONGO']
     const user = {...data.author, image: kid}
     const date = new Date()
-    return ( <div className='app'>
-    <Header data={data} />
-    <Main techs={techs} user={user}/>
-    <Button text="show time" IWasClicked={this.handleTime}/>
-    <Footer date={date} />
-    
-  </div>)
-  }
+    return (
+        <div className='app' style={this.state.day? this.state.lightstyles : this.state.darkmodestyles}>
+            <Header data={data} />
+            <Main techs={techs} user={user}/>
+            <Button text="show time" IWasClicked={this.handleTime}/>
+            <Button text="CHANGE BACKGROUND" IWasClicked={this.changeBackgroundColor} />
+            <Footer date={date} />
+        </div>
+       )}
 
-  }
+      }
 
 
 const rootElement = document.getElementById('root')
