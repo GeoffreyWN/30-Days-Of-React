@@ -19,7 +19,7 @@
 
 
 // index.js
-import React from 'react'
+import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
 // To get the root element from the HTML document
 import kid from './images/kid.jpg';
@@ -189,35 +189,37 @@ const showDate =(time) => {
 
 const Button = props => (<button onClick={props.IWasClicked}>{props.text}</button>)
 // JSX element, app
-const App = () => {
-const handleTime = () => {
+class App extends Component  {
+ handleTime = () => {
   alert(showDate(new Date()));
 }
-  const data = {
-    welcome :'Welcome to 30 Days Of React',
-    title : 'Getting Started React',
-    subtitle: 'JavaScript Library',
-    author : {
-      firstName: 'Sam',
-      lastName: 'Jeff',
-      title: 'Senior Dev',
-      location: 'Kenya'
-    },
-   date : new Date()
-  }
-
-  const techs = ['HTML', 'CSS', ' JS', ' REACT', 'ANGULAR', 'NODE', 'LARAVEL', 'MONGO']
-  const user = {...data.author, image: kid}
-  const date = new Date()
+  render() {
+    const data = {
+      welcome :'Welcome to 30 Days Of React',
+      title : 'Getting Started React',
+      subtitle: 'JavaScript Library',
+      author : {
+        firstName: 'Sam',
+        lastName: 'Jeff',
+        title: 'Senior Dev',
+        location: 'Kenya'
+      },
+     date : new Date()
+    }
   
-
-  return ( <div className='app'>
+    const techs = ['HTML', 'CSS', ' JS', ' REACT', 'ANGULAR', 'NODE', 'LARAVEL', 'MONGO']
+    const user = {...data.author, image: kid}
+    const date = new Date()
+    return ( <div className='app'>
     <Header data={data} />
     <Main techs={techs} user={user}/>
-    <Button text="show time" IWasClicked={handleTime}/>
+    <Button text="show time" IWasClicked={this.handleTime}/>
     <Footer date={date} />
     
-  </div>)}
+  </div>)
+  }
+
+  }
 
 
 const rootElement = document.getElementById('root')
